@@ -7,6 +7,7 @@
     <div class="setting-control">
       <volume-control :muted="muted" />
       <picture-in-picture />
+      <speed />
       <settings-control />
       <fullscreen-control />
     </div>
@@ -20,6 +21,7 @@ import VolumeControl from './volume'
 import Fullscreen from './fullscreen'
 import Settings from './settings'
 import PictureInPicture from './picture-in-picture'
+import speed from './speed'
 export default {
   name: 'Controls',
   components: {
@@ -28,11 +30,12 @@ export default {
     'volume-control': VolumeControl,
     'fullscreen-control': Fullscreen,
     'settings-control': Settings,
-    'picture-in-picture': PictureInPicture
+    'picture-in-picture': PictureInPicture,
+    speed
   },
   props: {
     visible: Boolean,
     muted: Boolean
-  }
+  },
 }
 </script>

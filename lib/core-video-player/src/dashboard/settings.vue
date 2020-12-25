@@ -21,7 +21,7 @@
             <widgets-switch ref="loopSwitch" @change="changeLoopSettings" />
           </div>
         </li>
-        <li>
+        <!-- <li>
           <span class="item-name">
             播放速度
           </span>
@@ -29,7 +29,7 @@
             <span>{{ speed }}x</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="5.963" height="11.568" viewBox="0 0 5.963 11.568"><path data-name="4" d="M.809.616l3.9 5-3.9 5.368" fill="none" stroke="#fff" stroke-width="2" /></svg>
           </div>
-        </li>
+        </li> -->
         <li v-show="medias.length > 1">
           <span class="item-name">
             清晰度

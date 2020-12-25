@@ -85,12 +85,15 @@ export default {
       this.showDashboard()
     },
     _onMouseleave() {
-      this.showDashboard()
+      console.log("_onMouseleave")
+      this.showDashboard(100)
     },
     _onMouseover() {
+      console.log("_onMouseover")
       this.showDashboard(0)
     },
     _onTouchend() {
+      console.log("_onTouchend")
       this.showDashboard()
     }
   }

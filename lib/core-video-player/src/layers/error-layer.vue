@@ -5,7 +5,7 @@
     </div>
     <div class="error-msg-wrap">
       <h2>"(O_O)?  播放错误!"</h2>
-      <p class="error-msg">{{ errMsg }}</p>
+      <p class="error-msg" @click="reloads">重新加载</p>
     </div>
   </div>
 </template>
@@ -28,11 +28,15 @@ export default {
   },
   mounted() {
     this.on(EVENTS.ERROR, (e) => {
-      console.log(e)
-      this.show = true
-      var errorKey = 'layers.error.' + e.code
-      this.errMsg = i18n.t(errorKey, '')
+      // this.show = true
+      this.$player.load()
     })
+  },
+  methods:  {
+    reloads() {
+      this.show = false
+      this.load()
+    }
   }
 }
 </script>
