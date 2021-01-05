@@ -9,29 +9,31 @@
         <i v-if="isPlaying" @click="play" class="iconfont icon-kaishi" />
         <i v-else @click="pause()" class="iconfont icon-zanting" />
       </div>
-      <div class="date">{{currentTime}}-{{duration}}</div>
+      <div class="date">{{currentTime}}/{{duration}}</div>
       <div class="setting">
-        <span class="playSpeed" @click="handPlaybackRate(item.value)" :class="{active: playSpeed === item.value}" :key="item.value" v-for="item in speedData">{{item.label}}</span>
-        <!-- <span v-if="!muted" @click="handEar(true)" class="ear">
-          <span class="earline">
-            <span class="line"></span>
-            <span class="bin"></span>
-          </span>
-          开启声音
-        </span>
-        <span v-else @click="handEar(false)" class="ear">关闭声音</span> -->
         <earline @handEar="handEar" @handCallback="handCallback" :volume="volume" v-model="muted" />
-        <i class="icon iconfont icon-shezhi"></i>
         <i @click="requestPictureInPicture" class="icon iconfont icon-huazhonghua-miaobianpx"></i>
+        <playSpeed @handCallback="handCallback" v-model="setPlaybackRate"/>
+        <box-fullscreen />
       </div>
     </div>
   </div>
 </template>
 <script>
 import earline from "./earline"
+import playSpeed from "./playSpeed"
+import boxFullscreen from "./Fullscreen"
 export default {
   components: {
-    earline
+    earline,
+    boxFullscreen,
+    playSpeed
+  },
+  props: {
+    value: {
+      type: Number,
+      default: () => 1
+    }
   },
   name: "setting",
   data() {
@@ -41,7 +43,7 @@ export default {
       muted: false, // 声音
       progressBar: 0, // 进度
       volume: 1, // 音量
-      playSpeed: 1, // 速度
+      // playSpeed: 1, // 速度
       buffered: 0, // 缓冲时间
       speedData: [
         { value: 0.5, label: '0.5x' },
@@ -54,6 +56,17 @@ export default {
       duration: '00:00:00'
     }
   },
+  computed: {
+     setPlaybackRate: {
+       get() {
+         return this.value
+       },
+       set(val) {
+         this.video.playbackRate = val
+         this.$emit("input", val)
+       }
+     }
+  },
   mounted() {
     this.video = this.$parent.$refs['video']
     this.$nextTick(() => {
@@ -62,12 +75,19 @@ export default {
   },
   methods: {
     init() {
+      this.errors()
+      this.loadstart() // 1
+      this.durationchange() // 2
+      this.loadedmetadata() // 3
+      this.loadeddata() // 4
+      this.progress() // 5
+      this.canplay() // 6
+      this.canplaythrough() // 7
+      this.stalled()
       this.timeupdate()
-      this.loadeddata()
       this.handPause()
       this.handPlay()
       this.waiting()
-      this.errors()
       this.seeking()
       this.volumechange()
       this.mousedown(this.$refs.progress)
@@ -90,11 +110,15 @@ export default {
         this.volume = value
         this.video.volume = this.volume
       }
+      if (key === 'playbackRate') {
+        console.log(value)
+      }
     },
     handPause() {
       this.video.addEventListener("pause", () => {
         console.log("暂停")
         this.isPlaying = true
+        this.$emit("handcallback", { key: 'layersChange' })
       })
     },
     handPlaybackRate(e) {
@@ -105,8 +129,29 @@ export default {
       this.video.addEventListener("play", () => {
         console.log("开始")
         this.isPlaying = false
+        this.$emit("handcallback", { key: 'layersChange' })
       })
     },
+    // 当浏览器开始查找音频/视频时触发。
+    loadstart() {
+      this.video.addEventListener('loadstart', (e) => {
+        console.log("loadstart", e)
+        console.log(this.video.networkState)
+      })
+    },
+    // 当音频/视频的时长已更改时触发。
+    durationchange() {
+      this.video.addEventListener("durationchange", () => {
+        console.log("durationchange")
+      })
+    },
+    // 当浏览器已加载音频/视频的元数据时触发。
+    loadedmetadata() {
+      this.video.addEventListener("loadedmetadata", () => {
+        console.log("loadedmetadata")
+      })
+    },
+    // 当浏览器已加载音频/视频的当前帧时触发。
     loadeddata() {
       this.video.addEventListener("loadeddata", () => {
         console.log("loadeddata")
@@ -114,33 +159,59 @@ export default {
         this.currentTime = this.resetTime(this.video.currentTime) // 开始时间
         this.muted = this.video.muted // 获取声音状态
         this.volume = this.video.volume // 获取音量大小
-        console.log(this.volume)
-        this.getBuffered() // 获取缓存数据 
+        // this.getBuffered() // 获取缓存数据 
       })
     },
-    timeupdate() { // 运行时触发进度条
+    // 当浏览器正在下载音频/视频时触发。
+    progress() {
+      this.video.addEventListener("progress", (e) => {
+        console.log("progress", this.video.readyState)
+        this.getBuffered()
+        // console.log(this.video.readyState)
+      })
+    },
+    // 当浏览器可以开始播放音频/视频时触发。
+    canplay() {
+      this.video.addEventListener("canplay", () => {
+        console.log("canplay", this.video.readyState)
+      })
+    },
+    // 当浏览器可在不因缓冲而停顿的情况下进行播放时触发。
+    canplaythrough() {
+      this.video.addEventListener("canplaythrough", () => {
+        console.log("canplaythrough")
+        // 
+      })
+    },
+    // 当目前的播放位置已更改时触发。
+    timeupdate() {
       let count = 0
       this.video.addEventListener("timeupdate", () => {
         console.log("timeupdate")
         this.progressBar = parseInt(this.video.currentTime / this.video.duration * 100)
         this.currentTime = this.resetTime(this.video.currentTime)
-        // if (count === 0) {
-        //   if (this.video.buffered.end(0) === this.video.duration) {
-        //     count = 1
-        //   }
-        // }
-        this.getBuffered()
+        // this.getBuffered()
       })
     },
+    stalled() {
+      this.video.addEventListener("stalled", () => {
+        // alert("媒体数据不可用");
+      })
+    },
+    //返回表示音频/视频错误状态的 MediaError 对象。
     errors() {
-      this.video.addEventListener("error", () => {
-        this.load()
+      this.video.addEventListener("error", (e) => {
         this.isPlaying = true
+        if(this.video.currentSrc)  {
+          this.load()
+        }
       })
     },
+    // 当浏览器尝试获取媒体数据，但数据不可用时触发。
     waiting() {
       this.video.addEventListener("waiting", () => {
-        this.getBuffered()
+        console.log("waiting")
+        // this.getBuffered()
       })
     },
     volumechange() {
@@ -194,30 +265,34 @@ export default {
     mousedown(element) {
       let mDown = false
       let vm = this
-      const offsetWidth = element.offsetWidth
-      element.addEventListener("mousedown", (event) => {
-        console.log("mousedown")
-        if(event.button === 0) {
-          vm.video && vm.pause()
-          vm.video.currentTime = vm.video.duration *(event.offsetX / offsetWidth)
-          mDown = true
-        }
-        document.addEventListener("mousemove", (event) => {
-          if (mDown) {
+      this.$nextTick(() => {
+        const offsetWidth = this.$refs.progress.offsetWidth
+        offsetWidth && this.$refs.progress.addEventListener("mousedown", (event) => {
+          console.log("mousedown")
+          if(event.button === 0) {
+            vm.video && vm.pause()
+            console.log(vm.video.duration *(event.offsetX / offsetWidth))
             vm.video.currentTime = vm.video.duration *(event.offsetX / offsetWidth)
-            vm.getBuffered()
+            mDown = true
           }
-        })
-        document.addEventListener("mouseup", (event) => {
-          console.log("mouseup")
-          if(mDown) {
-            vm.video && vm.play()
-          }
-          mDown = false
-          document.removeEventListener("mousemove", () => {}, false)
+          document.addEventListener("mousemove", (y) => {
+            if (mDown) {
+              vm.video.currentTime = vm.video.duration *(y.offsetX / offsetWidth)
+              vm.getBuffered()
+            }
+          })
+          vm.$refs.progress.addEventListener.addEventListener("mouseup", (event) => {
+            console.log("mouseup")
+            if(mDown) {
+              vm.video && vm.play()
+            }
+            mDown = false
+            document.removeEventListener("mousemove", () => {}, false)
+            vm.$refs.progress.removeEventListener("mouseup", () => {}, false)
+            vm.$refs.progress.removeEventListener("mousedown", () => {}, false)
+          })
         })
       })
-      
     }
   }
 }

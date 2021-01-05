@@ -44,6 +44,14 @@ export default {
       type: Boolean,
       default: false
     },
+    width: {
+      type: Number,
+      default: 500
+    },
+    height: {
+      type: Number,
+      default: 350
+    },
     playsinline: {
       type: Boolean,
       default: true
@@ -113,6 +121,8 @@ export default {
       ...this.$props,
       videoEl: this.$refs['vcp-video'],
       el: this.$refs['vcp-el'],
+      width: 500,
+      height: 350,
       eventEmitter: {
         on: this.on,
         emit: this.emit,
@@ -126,6 +136,7 @@ export default {
         }
       })
     })
+
     this._coreID = this.videoCore.id
     this.emit(EVENTS.LIFECYCLE_INITING, this.$player)
     try {
@@ -134,6 +145,7 @@ export default {
           item(this.$player, this.$player.config)
         }
       })
+      // const vm = this
     } catch (err) {
       console.error(err)
     }

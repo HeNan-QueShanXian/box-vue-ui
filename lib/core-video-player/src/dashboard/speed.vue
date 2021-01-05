@@ -1,7 +1,7 @@
 <template>
   <div class="box-video-player-speed">
     <span @click="setSpeed(item.value)" :class="{active: speed === item.value }" data-val="0.5" :key="item.value" v-for="item in speedData">{{item.label }}</span>
-    <span @click="setload" class="box-video-player-reload">重新播放</span>
+    <!-- <span @click="setload" class="box-video-player-reload">重新播放</span> -->
   </div>
 </template>
 <script>

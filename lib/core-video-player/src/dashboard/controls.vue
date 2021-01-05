@@ -1,15 +1,17 @@
 <template>
   <div class="vcp-controls">
-    <div class="playback-control">
-      <play-pause-cntrol />
-      <time-span />
-    </div>
-    <div class="setting-control">
-      <volume-control :muted="muted" />
-      <picture-in-picture />
-      <speed />
-      <settings-control />
-      <fullscreen-control />
+    <div class="vcp-controls-box">
+      <div class="playback-control">
+        <play-pause-cntrol />
+        <time-span />
+      </div>
+      <div class="setting-control">
+        <volume-control :muted="muted" />
+        <picture-in-picture />
+        <speed />
+        <settings-control />
+        <fullscreen-control />
+      </div>
     </div>
   </div>
 </template>

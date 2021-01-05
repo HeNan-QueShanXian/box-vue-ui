@@ -42,6 +42,10 @@
   bottom: 0;
   width: 100%;
   height: 59px;
+}
+.vcp-dashboard .vcp-dashboard-box {
+  height: 59px;
+  width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
 .fullscreen .vcp-dashboard {
@@ -51,7 +55,7 @@
   margin-left: -591px;
 }
 .small .vcp-dashboard {
-  height: 49px;
+  height: 59px;
 }
 .settings-open .vcp-dashboard {
   display: block !important;
@@ -849,6 +853,12 @@
   display: block;
   opacity: 1;
 }
+.box-video-player-speed {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  border: 1px solid #e5e5e5;
+}
 .box-video-player-speed span {
   cursor: pointer;
   display: inline-block;
@@ -862,8 +872,12 @@
 .box-video-player-speed .box-video-player-reload {
   color: #fff;
   font-size: 12px;
-  border: 1px solid #e5e5e5;
+  margin: 0 5px;
 }
 .error-msg {
   cursor: pointer;
+  background: #ff5e5c;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
 }

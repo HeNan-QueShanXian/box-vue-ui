@@ -28,6 +28,25 @@ export default {
     return {
       disable: (isMobile && isApple)
     }
+  },
+  mounted() {
+    let vm = this
+    document.onkeydown = (e) => {
+			const event = e || window.event
+			if (event.keyCode === 27 && this.fullscreen) {
+				this.cancelFullscreen()
+				this.pause()
+      }
+      if ((event.keyCode == 0 || event.keyCode == 32) && vm.$player.$video) {
+        if (vm.$player.$video.paused) {
+          console.log(vm.$player.$video.paused , '开启')
+          vm.play()
+        } else {
+          vm.pause()
+          console.log(vm.$player.$video.paused , '关闭')
+         }
+      }
+    }
   }
 }
 </script>

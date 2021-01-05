@@ -38,7 +38,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.init()
-      console.log(this.getVolume)
     })
   },
   methods: {
@@ -46,25 +45,26 @@ export default {
       this.$emit("handEar", e)
     },
     init() {
-      const offsetHeight = this.$refs.earbox.offsetHeight
+      // const offsetHeight = this.$refs.earbox.offsetHeight
       let vm = this
       this.$refs.earbox
       this.$refs.bar.addEventListener("mousedown", function (event){
         let mDown = false
         let volume = 0
-        var event = event || window.event;
+        const e = event || window.event;
         let top = this.offsetTop
-        if(event.button === 0) {
+        if(e.button === 0) {
           mDown = true
         }
         document.addEventListener("mousemove", (t) => {
           if (mDown) {
             if(['ear-line-box', 'ear-volume'].includes(t.target.className)) {
-              vm.$emit("handCallback", {key: "volume", value: t.offsetY / 100})
+              const volume = t.offsetY / 100 
+              vm.$emit("handCallback", {key: "volume", value: volume > 1 ? 1 : volume < 0 ? 0 : volume})
             }
           }
         })
-        document.addEventListener("mouseup", (event) => {
+        document.addEventListener("mouseup", (up) => {
           mDown = false
           document.removeEventListener("mousemove", () => {}, false)
         })
