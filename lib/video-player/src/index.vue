@@ -120,7 +120,6 @@ export default {
       if (delay === 0) {
 				console.log('no')
       } else {
-				this.$refs.setting.mousedown()
         this._hideTimeout = setTimeout(() => {
           this.hideDashboard()
         }, delay || 2500)

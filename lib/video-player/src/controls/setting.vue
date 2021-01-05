@@ -1,6 +1,6 @@
 <template>
   <div class="box-video-player-dashboard">
-    <div ref="progress" class="box-video-player-progress">
+    <div ref="playerProgress" class="box-video-player-progress">
       <div class="line" ref="lineProgress" :style="{width: progressBar + '%'}"></div>
       <div class="zline" :style="{width: buffered + '%'}"></div>
     </div>
@@ -23,6 +23,7 @@
 import earline from "./earline"
 import playSpeed from "./playSpeed"
 import boxFullscreen from "./Fullscreen"
+let mDown = false;
 export default {
   components: {
     earline,
@@ -71,6 +72,8 @@ export default {
     this.video = this.$parent.$refs['video']
     this.$nextTick(() => {
       this.init()
+      console.log("重新加载")
+      // this.getBuffered()
     })
   },
   methods: {
@@ -90,7 +93,7 @@ export default {
       this.waiting()
       this.seeking()
       this.volumechange()
-      this.mousedown(this.$refs.progress)
+      this.progressMousedown()
     },
     pause() { // 暂停播放
 			this.video.pause()
@@ -221,6 +224,7 @@ export default {
     },
     getBuffered() {
       try {
+        this.progressBar = parseInt(this.video.currentTime / this.video.duration * 100)
         this.buffered = this.video.buffered.end(0) / this.video.duration * 100
       } catch(e){
         console.log(e)
@@ -258,42 +262,39 @@ export default {
     seeking() {
       this.video.addEventListener('seeking',() => {
         this.currentTime = this.resetTime(this.video.currentTime)
-        this.progressBar = parseInt(this.video.currentTime / this.video.duration * 100)
+        
         this.getBuffered()
       })
     },
-    mousedown(element) {
-      let mDown = false
+    progressMousedown() { // 进度条 点击|拖拽 事件
       let vm = this
-      this.$nextTick(() => {
-        const offsetWidth = this.$refs.progress.offsetWidth
-        offsetWidth && this.$refs.progress.addEventListener("mousedown", (event) => {
-          console.log("mousedown")
-          if(event.button === 0) {
-            vm.video && vm.pause()
-            console.log(vm.video.duration *(event.offsetX / offsetWidth))
-            vm.video.currentTime = vm.video.duration *(event.offsetX / offsetWidth)
-            mDown = true
+      const offsetWidth = document.getElementsByClassName("box-video-player-container")[0].offsetWidth - 60
+      const playerProgress = this.$refs.playerProgress
+      playerProgress.addEventListener("mousedown", function (e) {
+        const event = e || window.event
+        if(event.button === 0) {
+          vm.video && vm.pause()
+          vm.video.currentTime = vm.video.duration * (event.offsetX / offsetWidth)
+          mDown = true
+        }
+        function _mousemove(y) {
+          if(mDown) {
+            vm.video.currentTime = vm.video.duration *(y.offsetX / offsetWidth)
+            vm.getBuffered()
           }
-          document.addEventListener("mousemove", (y) => {
-            if (mDown) {
-              vm.video.currentTime = vm.video.duration *(y.offsetX / offsetWidth)
-              vm.getBuffered()
-            }
-          })
-          vm.$refs.progress.addEventListener.addEventListener("mouseup", (event) => {
-            console.log("mouseup")
-            if(mDown) {
-              vm.video && vm.play()
-            }
-            mDown = false
-            document.removeEventListener("mousemove", () => {}, false)
-            vm.$refs.progress.removeEventListener("mouseup", () => {}, false)
-            vm.$refs.progress.removeEventListener("mousedown", () => {}, false)
-          })
-        })
-      })
+        }
+        document.addEventListener("mousemove", _mousemove)
+        document.addEventListener("mouseup", _mouseup)
+        function _mouseup() {
+          mDown = false
+          vm.video && vm.play()
+          document.removeEventListener("mousemove", _mousemove)
+          document.removeEventListener("mouseup", _mouseup)
+        }
+      } ,false)
     }
+  },
+  beforeDestroy() {
   }
 }
 </script>
