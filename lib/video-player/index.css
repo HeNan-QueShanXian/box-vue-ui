@@ -33,21 +33,20 @@
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.2);
 }
-.box-video-player-progress .zline,
-.box-video-player-progress .line {
+.box-video-player-progress-line,
+.box-video-player-progress-bar {
   left: 0;
-  cursor: pointer;
+  top: 0;
   height: 4px;
-  border-radius: 2px;
   position: absolute;
 }
-.box-video-player-progress .line {
-  background-color: #fff;
-  z-index: 2;
-}
-.box-video-player-progress .zline {
+.box-video-player-progress-line {
   z-index: 1;
   background-color: rgba(239, 239, 239, 0.5);
+}
+.box-video-player-progress-bar {
+  background-color: #fff;
+  z-index: 2;
 }
 .box-video-player-panel {
   height: 40px;
@@ -121,27 +120,18 @@
   width: 30px;
   z-index: 1;
 }
-.box-video-player-panel .setting .ear-line-box {
+.box-video-player-panel .setting .ear-volume-line,
+.box-video-player-panel .setting .ear-volume-bar {
   position: absolute;
+  top: 0;
+  height: 100%;
   width: 4px;
   left: 13px;
-  z-index: 0;
-  top: 0px;
-  background-color: #fff;
-  border-radius: 2px;
-  margin: 0 auto;
+  background-color: rgba(239, 239, 239, 0.5);
 }
-.box-video-player-panel .setting .ear-line-bar {
-  position: absolute;
-  background-color: #fff;
-  border-radius: 2px;
-  width: 14px;
-  height: 4px;
-  left: 8px;
-  top: 50px;
-  z-index: 3;
+.box-video-player-panel .setting .ear-volume-bar {
   cursor: pointer;
-  margin: 0 auto;
+  background-color: #fff;
 }
 .box-video-player-panel .setting .playSpeed {
   position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <div ref="player" :tabIndex='1' class="box-video-player" @keyup.space="changeBorder($event)" @focus="focus" @blur="blur">
+  <div ref="player" :tabIndex='1' class="box-video-player" @keyup.enter="changeBorder($event)" @keyup.space="changeBorder($event)" @focus="focus" @blur="blur">
     <div class="box-video-player-container">
 			<video ref="video" :playbackRate="playbackRate" :muted="muted" :src="src">
 				您的浏览器不支持Video标签。

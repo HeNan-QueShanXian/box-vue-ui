@@ -1,9 +1,6 @@
 <template>
   <div class="box-video-player-dashboard">
-    <div ref="playerProgress" class="box-video-player-progress">
-      <div class="line" ref="lineProgress" :style="{width: progressBar + '%'}"></div>
-      <div class="zline" :style="{width: buffered + '%'}"></div>
-    </div>
+    <player-progress @handCallback="handCallback" :buffered="buffered" :progress="progressBar" />
     <div class="box-video-player-panel">
       <div class="panel-buttom">
         <i v-if="isPlaying" @click="play" class="iconfont icon-kaishi" />
@@ -23,12 +20,14 @@
 import earline from "./earline"
 import playSpeed from "./playSpeed"
 import boxFullscreen from "./Fullscreen"
+import playerProgress from "./player-progress"
 let mDown = false;
 export default {
   components: {
     earline,
     boxFullscreen,
-    playSpeed
+    playSpeed,
+    playerProgress
   },
   props: {
     value: {
@@ -72,8 +71,6 @@ export default {
     this.video = this.$parent.$refs['video']
     this.$nextTick(() => {
       this.init()
-      console.log("重新加载")
-      // this.getBuffered()
     })
   },
   methods: {
@@ -93,7 +90,6 @@ export default {
       this.waiting()
       this.seeking()
       this.volumechange()
-      this.progressMousedown()
     },
     pause() { // 暂停播放
 			this.video.pause()
@@ -115,6 +111,10 @@ export default {
       }
       if (key === 'playbackRate') {
         console.log(value)
+      }
+      if (key === 'changeProgress') {
+        this.video.currentTime = this.video.duration * (value / 100)
+        this.getBuffered()
       }
     },
     handPause() {
@@ -262,37 +262,9 @@ export default {
     seeking() {
       this.video.addEventListener('seeking',() => {
         this.currentTime = this.resetTime(this.video.currentTime)
-        
         this.getBuffered()
       })
     },
-    progressMousedown() { // 进度条 点击|拖拽 事件
-      let vm = this
-      const offsetWidth = document.getElementsByClassName("box-video-player-container")[0].offsetWidth - 60
-      const playerProgress = this.$refs.playerProgress
-      playerProgress.addEventListener("mousedown", function (e) {
-        const event = e || window.event
-        if(event.button === 0) {
-          vm.video && vm.pause()
-          vm.video.currentTime = vm.video.duration * (event.offsetX / offsetWidth)
-          mDown = true
-        }
-        function _mousemove(y) {
-          if(mDown) {
-            vm.video.currentTime = vm.video.duration *(y.offsetX / offsetWidth)
-            vm.getBuffered()
-          }
-        }
-        document.addEventListener("mousemove", _mousemove)
-        document.addEventListener("mouseup", _mouseup)
-        function _mouseup() {
-          mDown = false
-          vm.video && vm.play()
-          document.removeEventListener("mousemove", _mousemove)
-          document.removeEventListener("mouseup", _mouseup)
-        }
-      } ,false)
-    }
   },
   beforeDestroy() {
   }
