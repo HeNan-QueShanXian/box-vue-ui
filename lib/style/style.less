@@ -1,5 +1,7 @@
 @iterations: 24;
 @columns-pading: 15px;
+// 列名
+@columns-name: box-col;
 @container: container;
 // 响应对应尺寸
 @screen-sm-min: 768px;
@@ -37,17 +39,32 @@
     clear: both;
   }
 }
-.mixin-loop (@i,@type) when (@i > 0) {
-  .col-@{type}-@{i}{
+.mixin-loop (@type, @n, @i: 1) when (@i <= @n) {
+  @col-class-name: ~"@{columns-name}-@{type}";
+  .@{col-class-name}-@{i}{
+    width: @i/@n*100%;
     float: left;
-    width: 100% / (12 / @i );
   }
-  .mixin-loop(@i - 1,@type);
+  // 偏移
+  .@{col-class-name}-offset-@{i}{
+    margin-left: @i/@n*100%;
+  }
+  // 排序
+  .@{col-class-name}-pull-@{i}{
+    right: @i/@n*100%;
+  }
+  .@{col-class-name}-push-@{i}{
+    left: @i/@n*100%;
+  }
+  .mixin-loop(@type, @n, (@i + 1));
 }
-@media (min-width: 769px) {
-  .mixin-loop(@iterations,md)
+// 媒体查询设置对应列类型css
+@media (min-width: @screen-sm-min) {
+  .mixin-loop(sm, @iterations);
 }
-
-@media (max-width: 768px) {
-  .mixin-loop(@iterations,ms)
+@media (min-width: @screen-md-min) {
+  .mixin-loop(md, @iterations);
+}
+@media (min-width: @screen-lg-min) {
+  .mixin-loop(lg, @iterations);
 }
