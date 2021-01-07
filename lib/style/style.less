@@ -4,9 +4,9 @@
 @columns-name: box-col;
 @container: container;
 // 响应对应尺寸
-@screen-sm-min: 768px;
-@screen-md-min: 992px;
-@screen-lg-min: 1200px;
+// @screen-sm-min: 768px;
+// @screen-md-min: 992px;
+// @screen-lg-min: 1200px;
 .@{container},
 .@{container}-fluid{
   padding-left: @columns-pading;
@@ -45,26 +45,119 @@
     width: @i/@n*100%;
     float: left;
   }
-  // 偏移
-  .@{col-class-name}-offset-@{i}{
-    margin-left: @i/@n*100%;
-  }
-  // 排序
-  .@{col-class-name}-pull-@{i}{
-    right: @i/@n*100%;
-  }
-  .@{col-class-name}-push-@{i}{
-    left: @i/@n*100%;
-  }
+  // // 偏移
+  // .@{col-class-name}-offset-@{i}{
+  //   margin-left: @i/@n*100%;
+  // }
+  // // 排序
+  // .@{col-class-name}-pull-@{i}{
+  //   right: @i/@n*100%;
+  // }
+  // .@{col-class-name}-push-@{i}{
+  //   left: @i/@n*100%;
+  // }
   .mixin-loop(@type, @n, (@i + 1));
 }
-// 媒体查询设置对应列类型css
-@media (min-width: @screen-sm-min) {
-  .mixin-loop(sm, @iterations);
-}
-@media (min-width: @screen-md-min) {
-  .mixin-loop(md, @iterations);
-}
-@media (min-width: @screen-lg-min) {
-  .mixin-loop(lg, @iterations);
-}
+.mixin-loop(span, @iterations);
+// // 媒体查询设置对应列类型css
+// // @media (min-width: @screen-sm-min) {
+// //   .mixin-loop(sm, @iterations);
+// // }
+// // @media (min-width: @screen-md-min) {
+// //   .mixin-loop(md, @iterations);
+// // }
+// // @media (min-width: @screen-lg-min) {
+// //   .mixin-loop(lg, @iterations);
+// // }
+// @prefix-row: ~'box-row';
+// @prefix-col: ~'box-col';
+// @gird-columns: 24;
+
+// .loop-grid-columns(@index, @sizeType) when (@index > 0) {
+//   .@{prefix-col}-@{sizeType}-@{index} {
+//     display: block;
+//     box-sizing: border-box;
+//     width: @index / @gird-columns * 100%;
+//   }
+
+//   .loop-grid-columns((@index - 1), @sizeType)
+// }
+
+// .loop-grid-columns(@index, @sizeType) when (@index =0) {
+
+//   .@{prefix-col}-@{sizeType}-@{index} {
+//     display: none;
+//   }
+
+// }
+
+// .clearfix {
+//   &::after {
+//     content: '';
+//     display: table;
+//   }
+
+//   clear: both;
+// }
+// .mackRow(@gutter: 0) {
+//   .clearfix;
+//   position: relative;
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+//   flex-wrap: wrap;
+//   margin-left: (@gutter/-2)px;
+//   margin-right: (@gutter/-2)px;
+//   height: auto;
+// }
+
+// .@{prefix-col} {
+//   overflow: hidden;
+//   flex: 0 0 auto;
+//   box-sizing: border-box;
+// }
+
+
+// // flex 水平布局
+// @justify: center, flex-start, flex-end, space-between, space-around;
+
+// .loop-flex-justify(@i: 1) when (@i < length(@justify) + 1) {
+
+//   @type: extract(@justify, @i);
+//   @prop: ~'[justify="@{type}"]';
+
+//   &@{prop} {
+//     justify-content: @type;
+//   }
+
+//   .loop-flex-justify(@i + 1)
+// }
+
+// // flex 垂直布局
+// @align: flex-start, flex-end, center, baseline, stretch;
+
+// .loop-flex-align(@i: 1) when (@i < length(@align) + 1) {
+//   @type: extract(@align, @i);
+//   @prop: ~'[align="@{type}"]';
+
+//   &@{prop} {
+//     align-items: @type;
+//   }
+
+//   .loop-flex-align((@i + 1))
+// }
+
+
+// .@{prefix-row} {
+//   .mackRow();
+//   box-sizing: border-box;
+//   background: #eee;
+//   .loop-flex-justify();
+//   .loop-flex-align();
+// }
+
+// .makeGrid(@class) {
+//   .loop-grid-columns(@gird-columns, @class);
+// }
+
+// .makeGrid(~'span');
