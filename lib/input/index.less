@@ -1,3 +1,4 @@
+@import "../style/var";
 .box-input {
   display: flex;
   background-color: #fff;
@@ -5,13 +6,21 @@
     outline: none;
     padding: 5px;
     border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    font-size: @--font-size-small;
     flex: 1;
     &::-webkit-input-placeholder {
       color: #d0d0d0;
     }
     &:focus {
       outline: none;
-      border-color: red;
+      border-color: @--color-primary;
     }
+  }
+  &__label {
+    min-width: 80px;
+    padding-right: 5px;
+    text-align: left;
+    font-size: @--font-size-small;
   }
 }
