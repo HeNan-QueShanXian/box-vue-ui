@@ -1,11 +1,30 @@
 .box-input {
   display: flex;
   background-color: #fff;
+  align-items: center;
+  padding: 5px 0px;
+  align-content: center;
+  position: relative;
+}
+.box-input__right {
+  text-align: right;
+}
+.box-input__left {
+  text-align: right;
+}
+.box-input__suffix {
+  position: absolute;
+  width: 30px;
+  cursor: pointer;
+  font-size: 13px;
+  right: 5px;
 }
 .box-input__inner {
   outline: none;
   padding: 5px;
   border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  font-size: 13px;
   flex: 1;
 }
 .box-input__inner::-webkit-input-placeholder {
@@ -13,5 +32,11 @@
 }
 .box-input__inner:focus {
   outline: none;
-  border-color: red;
+  border-color: #ff4d4d;
+}
+.box-input__label {
+  min-width: 80px;
+  padding-right: 5px;
+  text-align: left;
+  font-size: 13px;
 }
