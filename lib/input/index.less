@@ -6,11 +6,20 @@
   padding: 5px 0px;
   align-content: center;
   position: relative;
+  flex-wrap: wrap;
+  padding-bottom:  17px;
   &__right {
     text-align: right;
   }
   &__left {
     text-align: right;
+  }
+  &__error {
+    // flex: 1 1 auto;
+    text-align: left;
+    font-size: @--font-size-small;
+    color: @--color-danger;
+    flex-basis: 100%;
   }
   &__suffix {
     position: absolute;
@@ -35,7 +44,6 @@
     }
   }
   &__label {
-    min-width: 80px;
     padding-right: 5px;
     text-align: left;
     font-size: @--font-size-small;

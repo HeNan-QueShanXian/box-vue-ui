@@ -5,12 +5,20 @@
   padding: 5px 0px;
   align-content: center;
   position: relative;
+  flex-wrap: wrap;
+  padding-bottom: 17px;
 }
 .box-input__right {
   text-align: right;
 }
 .box-input__left {
   text-align: right;
+}
+.box-input__error {
+  text-align: left;
+  font-size: 13px;
+  color: #f56c6c;
+  flex-basis: 100%;
 }
 .box-input__suffix {
   position: absolute;
@@ -35,7 +43,6 @@
   border-color: #ff4d4d;
 }
 .box-input__label {
-  min-width: 80px;
   padding-right: 5px;
   text-align: left;
   font-size: 13px;
