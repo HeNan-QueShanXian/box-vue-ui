@@ -1,5 +1,5 @@
 .box-button {
-  font-size: 13px;
+  font-size: 18px;
   padding: 3px 10px;
   border: 1px solid #dcdfe6;
   background-color: #fff;
@@ -12,6 +12,15 @@
 }
 .box-button:hover {
   background: #efeeee;
+}
+.box-button__medium {
+  font-size: 16px;
+}
+.box-button__base {
+  font-size: 14px;
+}
+.box-button__small {
+  font-size: 13px;
 }
 .box-button__primary {
   background-color: #4d504b;
