@@ -1,6 +1,4 @@
-<template>
-  <div :data-buffered="buffered" :data-progress="progress" v-directivemMousedown="changeProgress" class="box-video-player-progress" />
-</template>
+
 <script>
 import { directivemMousedown } from "../../../utils/directive"
 export default {
@@ -17,6 +15,21 @@ export default {
       type: Number,
       default: () => 0
     }
+  },
+  render: function (h) {
+    return h("div", {
+      class: ["box-video-player-progress"],
+      attrs: {
+        'data-buffered': this.buffered,
+        'data-progress': this.progress
+      },
+      directives: [
+        {
+          name: "directivemMousedown",
+          arg: this.changeProgress
+        }
+      ]
+    })
   },
   methods: {
     changeProgress({key, value}) {

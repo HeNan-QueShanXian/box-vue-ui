@@ -1,0 +1,41 @@
+@import "../style/var";
+.box-badge {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  &__content {
+    position: absolute;
+    top: -0px;
+    right: 10px;
+    z-index: 5;
+    border-radius: 9px;
+    color: #333;
+    border: 1px solid #dcdfe6;
+    font-size: @--font-size-small;
+    background-color: #fff;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px;
+    transform: translateY(-50%) translateX(100%);
+  }
+  &__primary {
+    background-color: @--color-primary;
+    color: #fff;
+  }
+  &__warning {
+    color: #fff;
+    background-color: @--color-warning;
+  }
+  &__info {
+    color: #fff;
+    background-color: @--color-info;
+  }
+  &__success {
+    color: #fff;
+    background-color: @--color-success;
+  }
+  &__danger {
+    color: #fff;
+    background-color: @--color-danger;
+  }
+}

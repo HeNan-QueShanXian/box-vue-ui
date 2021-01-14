@@ -1,0 +1,50 @@
+.box-button {
+  font-size: 13px;
+  padding: 3px 10px;
+  border: 1px solid #dcdfe6;
+  background-color: #fff;
+  border-radius: 3px;
+  margin: 0 5px;
+  color: #333;
+}
+.box-button:focus {
+  outline: -webkit-focus-ring-color auto 0;
+}
+.box-button:hover {
+  background: #efeeee;
+}
+.box-button__primary {
+  background-color: #4d504b;
+  color: #fff;
+}
+.box-button__primary:hover {
+  background-color: #353834;
+}
+.box-button__warning {
+  background-color: #e6a23c;
+  color: #fff;
+}
+.box-button__warning:hover {
+  background-color: #ca7c07;
+}
+.box-button__danger {
+  background-color: #f56c6c;
+  color: #fff;
+}
+.box-button__danger:hover {
+  background-color: #dc6060;
+}
+.box-button__success {
+  background-color: #67c23a;
+  color: #fff;
+}
+.box-button__success:hover {
+  background-color: #5bad33;
+}
+.box-button__info {
+  background-color: #909399;
+  color: #fff;
+}
+.box-button__info:hover {
+  background-color: #82848a;
+}

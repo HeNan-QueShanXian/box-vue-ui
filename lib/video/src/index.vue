@@ -52,7 +52,6 @@ export default {
 			dashboardHideDelay: 1500
 		}
 	},
-	
 	mounted() {
 		this.$nextTick(() => {
 			if(!this.src) {

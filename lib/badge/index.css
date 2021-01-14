@@ -1,0 +1,40 @@
+.box-badge {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+}
+.box-badge__content {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  z-index: 5;
+  border-radius: 9px;
+  color: #333;
+  border: 1px solid #dcdfe6;
+  font-size: 13px;
+  background-color: #fff;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 5px;
+  transform: translateY(-50%) translateX(100%);
+}
+.box-badge__primary {
+  background-color: #4d504b;
+  color: #fff;
+}
+.box-badge__warning {
+  color: #fff;
+  background-color: #e6a23c;
+}
+.box-badge__info {
+  color: #fff;
+  background-color: #909399;
+}
+.box-badge__success {
+  color: #fff;
+  background-color: #67c23a;
+}
+.box-badge__danger {
+  color: #fff;
+  background-color: #f56c6c;
+}

@@ -1,1 +1,51 @@
-.box-button {}
+@import "../style/var";
+.box-button {
+  font-size: @--font-size-small;
+  padding: 3px 10px;
+  border: 1px solid #dcdfe6;
+  background-color: #fff;
+  border-radius: 3px;
+  margin: 0 5px;
+  color: #333;
+  &:focus {
+    outline: -webkit-focus-ring-color auto 0;
+  }
+  &:hover {
+    background:#efeeee;
+  }
+  &__primary {
+    background-color: @--color-primary;
+    color: #fff;
+    &:hover {
+      background-color:#353834;
+    }
+  }
+  &__warning {
+    background-color: @--color-warning;
+    color: #fff;
+    &:hover {
+      background-color:#ca7c07;
+    }
+  }
+  &__danger {
+    background-color: @--color-danger;
+    color: #fff;
+    &:hover {
+      background-color:#dc6060;
+    }
+  }
+  &__success {
+    background-color: @--color-success;
+    color: #fff;
+    &:hover {
+      background-color: #5bad33;
+    }
+  }
+  &__info {
+    background-color: @--color-info;
+    color: #fff;
+    &:hover {
+      background-color:#82848a;
+    }
+  }
+}
